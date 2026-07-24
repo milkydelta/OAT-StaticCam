@@ -6,13 +6,18 @@
     <OutputPath>bin/</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Toolchain>x86_64-pc-linux-gnu</Toolchain>
+    <CC>$(Toolchain)-gcc</CC>
+  </PropertyGroup>
+
   <ItemGroup>
     <GccCompile Include="lincomm.c" />
   </ItemGroup>
 
   <Target Name="Build" Inputs="@(GccCompile)" Outputs="$(OutputPath)$(OutputName)" Condition="$([System.OperatingSystem]::IsLinux())" >
     <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
-    <Message Text="Compiling $(OutputName) with GCC" Importance="high"/>
-    <Exec Command="gcc -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" ConsoleToMsBuild="true"/>
+    <Message Text="$(CC) -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" Importance="high"/>
+    <Exec Command="$(CC) -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" ConsoleToMsBuild="true"/>
   </Target>
 </Project>
