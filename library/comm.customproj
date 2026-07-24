@@ -1,0 +1,18 @@
+<Project>
+    <!-- Yes. I wrote an MSBuild file for running GCC-->
+    <!-- No. It's not needed. The .sh file worked fine-->
+  <PropertyGroup>
+    <OutputName>comm.so</OutputName>
+    <OutputPath>bin/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <GccCompile Include="lincomm.c" />
+  </ItemGroup>
+
+  <Target Name="Build" Inputs="@(GccCompile)" Outputs="$(OutputPath)$(OutputName)" Condition="$([System.OperatingSystem]::IsLinux())" >
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    <Message Text="Compiling $(OutputName) with GCC" Importance="high"/>
+    <Exec Command="gcc -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" ConsoleToMsBuild="true"/>
+  </Target>
+</Project>
