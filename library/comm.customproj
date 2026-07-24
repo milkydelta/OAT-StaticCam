@@ -20,4 +20,6 @@
     <Message Text="$(CC) -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" Importance="high"/>
     <Exec Command="$(CC) -shared -o $(OutputPath)$(OutputName) @(GccCompile, ' ')" ConsoleToMsBuild="true"/>
   </Target>
+
+  <Target Name="GetCopyToPublishDirectoryItems"></Target>
 </Project>
