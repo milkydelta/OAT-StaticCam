@@ -1,10 +1,13 @@
 ﻿using System.Numerics;
+using System.Security.AccessControl;
 
 namespace Static_OAT;
 
 class Program
 {
     const string cfgpath = "externalcamera.cfg";
+
+    static string mmfpath = "uk.lum.vrnyan.cameradata.v1.1";
 
     static Comms mmf;
 
@@ -54,10 +57,13 @@ class Program
         Console.WriteLine("Press L to toggle mod logging.");
         Console.WriteLine("Press P to toggle mod log spam.");
 
+        if (args.Length > 0){ mmfpath = args[0];}
+
+
         mmf = Comms.New();
 
-        Console.WriteLine("Opening shared memory");
-        mmf.Open("uk.lum.livnyan.cameradata.v1.1");
+        Console.WriteLine("Opening shared memory at "+mmfpath);
+        mmf.Open(mmfpath);
 
 
         ConsoleKeyInfo ck;
